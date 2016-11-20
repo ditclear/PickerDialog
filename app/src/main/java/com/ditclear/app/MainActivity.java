@@ -3,18 +3,27 @@ package com.ditclear.app;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity implements PickerDialog.OnSelectedListener{
 
     PickerDialog mSingleDialog, mLimitDialog, mNoLimitDialog;
-
+    TextView mTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mSingleDialog = PickerDialog.newInstance(1);
-        mLimitDialog = PickerDialog.newInstance(3);
-        mNoLimitDialog = PickerDialog.newInstance(-1);
+
+        mTextView= (TextView) findViewById(R.id.selected_tv);
+        mSingleDialog = PickerDialog.newInstance(1,"单位", new PickerItem.PickerItems().getList());
+        mLimitDialog = PickerDialog.newInstance(3,"数量", new PickerItem.PickerItems().getList());
+        mNoLimitDialog = PickerDialog.newInstance(-1,"名称", new PickerItem.PickerItems().getList());
+
+        mSingleDialog.setOnSelectedListener(this);
+        mLimitDialog.setOnSelectedListener(this);
+        mNoLimitDialog.setOnSelectedListener(this);
     }
 
     public void pick1(View v) {
@@ -27,5 +36,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void pick3(View v) {
         mNoLimitDialog.show(getSupportFragmentManager(), "nolimit");
+    }
+
+    @Override
+    public void onSelected(List<? extends IContent> pos) {
+        String content="已选择：\n";
+        for (IContent c: pos) {
+            content+="<"+c.getDesc()+">";
+        }
+        mTextView.setText(content);
     }
 }

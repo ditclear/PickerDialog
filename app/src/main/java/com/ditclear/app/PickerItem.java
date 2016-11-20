@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 页面描述：
@@ -34,12 +33,12 @@ public class PickerItem implements IContent, Parcelable {
     }
 
     static class PickerItems {
-        List<PickerItem> mList;
+        ArrayList<PickerItem> mList;
 
-        List<PickerItem> getList() {
+        ArrayList<PickerItem> getList() {
             mList = new ArrayList<>();
             for (int i = 0; i < 30; i++) {
-                mList.add(new PickerItem("unit "+i));
+                mList.add(new PickerItem(" "+i));
             }
             return mList;
         }

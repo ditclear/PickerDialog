@@ -11,9 +11,7 @@ import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * 页面描述：
@@ -22,12 +20,11 @@ import java.util.Set;
  */
 
 public class PickerAdapter<T extends IContent> extends RecyclerView.Adapter<PickerAdapter.ItemHolder> {
-    SparseBooleanArray mCheckStates = new SparseBooleanArray();
-    boolean lockState = false;
-    String content;
-    ArrayList<T> selItems = new ArrayList<>();
-    Set<Integer> mSelectedPosSet = new HashSet<>();
-    String selectedPos;
+    private SparseBooleanArray mCheckStates = new SparseBooleanArray();
+    private boolean lockState = false;
+    private String content;
+    private ArrayList<T> selItems = new ArrayList<>();
+    private String selectedPos;
     private List<T> mList;
     private Context context;
     private int maxSelected;
@@ -57,12 +54,16 @@ public class PickerAdapter<T extends IContent> extends RecyclerView.Adapter<Pick
                 int pos = (int) buttonView.getTag();
                 if (mCheckStates.get(pos, false) == isChecked) return;
                 if (isChecked) {
-                    if (mCheckStates.size() == maxSelected) {
+                    if (maxSelected == 1 && maxSelected == mCheckStates.size()) {
+                        int pre = mCheckStates.keyAt(0);
+                        mCheckStates.clear();
+                        notifyItemChanged(pre);
+                    } else if (mCheckStates.size() == maxSelected) {
                         //不然cbx改变状态.
                         lockState = true;
                         buttonView.setChecked(!isChecked);
                         lockState = false;
-                        Toast.makeText(context, "不能大于" + maxSelected, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "最多可选" + maxSelected + "个", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     mCheckStates.put(pos, true);
@@ -95,12 +96,16 @@ public class PickerAdapter<T extends IContent> extends RecyclerView.Adapter<Pick
     }
 
     public void setSelectedPosSet(int... posSet) {
-        if (posSet==null){
+        if (posSet == null) {
             return;
         }
         for (int pos : posSet) {
-            mCheckStates.put(pos,true);
+            mCheckStates.put(pos, true);
         }
+    }
+
+    public void setList(List<T> list) {
+        mList = list;
     }
 
     ArrayList<T> getSelectedItems() {
@@ -117,9 +122,9 @@ public class PickerAdapter<T extends IContent> extends RecyclerView.Adapter<Pick
         selectedPos = "";
         for (int i = 0; i < mCheckStates.size(); i++) {
             if (mCheckStates.valueAt(i)) {
-                if (maxSelected==1){
-                    selectedPos=mCheckStates.keyAt(i)+"";
-                }else {
+                if (maxSelected == 1) {
+                    selectedPos = mCheckStates.keyAt(i) + "";
+                } else {
                     selectedPos += mCheckStates.keyAt(i) + "|";
                 }
             }
@@ -128,7 +133,7 @@ public class PickerAdapter<T extends IContent> extends RecyclerView.Adapter<Pick
     }
 
     public int getItemCount() {
-        return mList.size();
+        return mList==null?0:mList.size();
     }
 
     public void setOnSelectChangeListener(OnSelectChangeListener onSelectChangeListener) {

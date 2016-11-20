@@ -1,22 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <data>
-
-        <variable
-            name="item"
-            type="java.lang.String"/>
-    </data>
-
-    <CheckBox
-        android:id="@+id/checkbox"
-        android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:layout_gravity="center"
-        android:background="@drawable/selector_item_bg"
-        android:button="@drawable/selector_check_button"
-        android:gravity="right|center_vertical"
-        android:paddingRight="10dp"
-        android:text="@{item}"
-        android:textColor="@drawable/selector_text"/>
-</layout>
+<CheckBox xmlns:android="http://schemas.android.com/apk/res/android"
+          android:id="@+id/checkbox"
+          android:layout_width="match_parent"
+          android:layout_height="100dp"
+          android:layout_gravity="center"
+          android:background="@drawable/selector_item_bg"
+          android:button="@drawable/selector_check_button"
+          android:gravity="right|center_vertical"
+          android:paddingRight="10dp"
+          android:textColor="@drawable/selector_text"/>

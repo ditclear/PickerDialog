@@ -28,7 +28,7 @@ public class NotoTextView extends TextView {
     }
 
     private void init(Context context) {
-        Typeface tf = Typeface.createFromAsset(context.getAssets(), "NotoSans-Italic.ttf");
+        Typeface tf = Typeface.createFromAsset(context.getAssets(), "NotoSansUI-Regular.ttf");
         setTypeface(tf);
     }
 }
